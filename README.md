@@ -6,7 +6,7 @@
 
 > Browse [source code](https://github.com/NetCoreTemplates/web), view live demo [web.web-templates.io](http://web.web-templates.io) and install with [dotnet-new](http://docs.servicestack.net/dotnet-new):
 
-    $ npm install -g servicestack-cli
+    $ npm install -g @servicestack/cli
 
     $ dotnet-new web ProjectName
 
