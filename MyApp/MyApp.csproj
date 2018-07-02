@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\web.ServiceInterface\web.ServiceInterface.csproj" />
-    <ProjectReference Include="..\web.ServiceModel\web.ServiceModel.csproj" />
+    <ProjectReference Include="..\MyApp.ServiceInterface\MyApp.ServiceInterface.csproj" />
+    <ProjectReference Include="..\MyApp.ServiceModel\MyApp.ServiceModel.csproj" />
   </ItemGroup>
 
 </Project>
