@@ -1,6 +1,6 @@
 # web
 
-.NET Core 2.1 Empty Web Template
+.NET Core 3.1 Empty Web Template
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/web.png)](http://web.web-templates.io/)
 
