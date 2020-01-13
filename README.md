@@ -4,7 +4,7 @@
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/web.png)](http://web.web-templates.io/)
 
-> Browse [source code](https://github.com/NetCoreTemplates/web), view live demo [web.web-templates.io](http://web.web-templates.io) and install with [dotnet-new](http://docs.servicestack.net/dotnet-new):
+> Browse [source code](https://github.com/NetCoreTemplates/web), view live demo [web.web-templates.io](http://web.web-templates.io) and install with [dotnet-new](https://docs.servicestack.net/dotnet-new):
 
     $ dotnet tool install -g x
 
