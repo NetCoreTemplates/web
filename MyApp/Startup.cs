@@ -42,7 +42,6 @@ namespace MyApp
         {
             SetConfig(new HostConfig
             {
-                DefaultRedirectPath = "/metadata",
                 DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false)
             });
         }
