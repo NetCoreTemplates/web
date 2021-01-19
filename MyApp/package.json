@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "dtos": "x ts && tsc -m umd dtos.ts && node -e \"require('fs').renameSync('dtos.js','wwwroot/dtos.js')\""
+    }
+}
