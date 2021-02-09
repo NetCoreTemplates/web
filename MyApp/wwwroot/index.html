@@ -11,50 +11,49 @@
     </style>
 </head>
 <body>
-    
-    <h2><a href="/json/metadata?op=Hello">Hello</a> API</h2>
-    <input type="text" id="txtName" onkeyup="callHello(this.value)">
-    <div id="result"></div>
 
-    <script>
-        var exports = { __esModule:true }, module = { exports:exports }
-        function require(name) { return exports[name] || window[name] }
-    </script>
-    <script src="/js/servicestack-client.js"></script>
-    <script src="/dtos.js"></script>
-    <script>
-        Object.assign(window, exports); //import
+<h2><a href="/json/metadata?op=Hello">Hello</a> API</h2>
+<input type="text" id="txtName" onkeyup="callHello(this.value)">
+<div id="result"></div>
 
-        var client = new JsonServiceClient();
-        function callHello(val) {
-            client.get(new Hello({ name: val }))
-                .then(function(r) {
-                    document.getElementById('result').innerHTML = r.result;
-                });
-        }
+<script>
+    var exports = { __esModule:true }, module = { exports:exports }
+    function require(name) { return exports[name] || window[name] }
+</script>
+<script src="/js/servicestack-client.js"></script>
+<script src="/dtos.js"></script>
+<script>
+    Object.assign(window, exports); //import
 
-        callHello(document.querySelector('#txtName').value = 'World')
-    </script>
+    var client = new JsonServiceClient();
+    function callHello(val) {
+        client.get(new Hello({ name: val }))
+            .then(function(r) {
+                document.getElementById('result').innerHTML = r.result;
+            });
+    }
 
-    <div style="font-size:20px;line-height:26px">
-        <h3>Using JsonServiceClient in Web Pages</h3>
+    callHello(document.querySelector('#txtName').value = 'World')
+</script>
 
-        <p>
-            Update your App's 
-            <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript DTOs</a> and 
-            compile to JS  
-            (requires <a href="https://nodejs.org/en/">Node.js</a> + <a href="https://www.typescriptlang.org/download">TypeScript</a>):
-        </p>
+<div style="font-size:20px;line-height:26px">
+    <h3>Using JsonServiceClient in Web Pages</h3>
 
-        <pre>$ npm run dtos</pre>
+    <p>
+        Update your App's
+        <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript DTOs</a> and
+        compile to JS (requires <a href="https://www.typescriptlang.org/download">TypeScript</a>):
+    </p>
 
-        <h3>Including @servicestack/client &amp; Typed DTOs</h3>
+    <pre>$ x scripts dtos</pre>
 
-        <p>
-            Create a basic UMD loader then include the UMD <b>@servicestack/client</b> library and <b>dtos.js</b>:
-        </p>
+    <h3>Including @servicestack/client &amp; Typed DTOs</h3>
 
-        <pre>&lt;script&gt;
+    <p>
+        Create a basic UMD loader then include the UMD <b>@servicestack/client</b> library and <b>dtos.js</b>:
+    </p>
+
+    <pre>&lt;script&gt;
   var exports = { __esModule:true }, module = { exports:exports }
   function require(name) { return exports[name] || window[name] }
 &lt;/script&gt;
@@ -65,7 +64,7 @@
         We can then import the library and DTO types in the global namespace to use them directly:
     </p>
 
-<pre>Object.assign(window, exports) //import
+    <pre>Object.assign(window, exports) //import
 
 var client = new JsonServiceClient()
 client.get(new Hello({ name: name }))
@@ -82,11 +81,11 @@ let client = new JsonServiceClient()
 let response = await client.get(new Hello({ name }))
 </pre>
 
-        <p>
-            Typed DTOs generated using 
-            <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript Add ServiceStack Reference</a> 
-        </p>
-    </div>
+    <p>
+        Typed DTOs generated using
+        <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript Add ServiceStack Reference</a>
+    </p>
+</div>
 
 </body>
 </html>
