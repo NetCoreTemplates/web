@@ -10,6 +10,12 @@
 
     $ x new web ProjectName
 
+Alternatively write new project files directly into an empty repository, using the Directory Name as the ProjectName:
+
+    $ git clone https://github.com/<User>/<ProjectName>.git
+    $ cd <ProjectName>
+    $ x new web
+
 ### Update Server TypeScript DTOs
 
 Run the dtos package.json script to update your server dtos:
