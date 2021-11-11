@@ -8,15 +8,6 @@ namespace MyApp;
 
 public class AppHost : AppHostBase, IHostingStartup
 {
-    public AppHost() : base("MyApp", typeof(MyServices).Assembly) {}
-
-    public override void Configure(Container container)
-    {
-        // Configure ServiceStack only IOC, Config & Plugins
-        SetConfig(new HostConfig {
-        });
-    }
-
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices(services => {
             // Configure ASP.NET Core IOC Dependencies
@@ -26,4 +17,14 @@ public class AppHost : AppHostBase, IHostingStartup
             if (!HasInit)
                 app.UseServiceStack(new AppHost());
         });
+
+    public AppHost() : base("MyApp", typeof(MyServices).Assembly) {}
+
+    public override void Configure(Container container)
+    {
+        // Configure ServiceStack only IOC, Config & Plugins
+        SetConfig(new HostConfig {
+            UseSameSiteCookies = true,
+        });
+    }
 }
