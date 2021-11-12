@@ -1,6 +1,6 @@
 # web
 
-.NET 5.0 Empty Web Template
+.NET 6.0 Empty Web Template
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/web.png)](http://web.web-templates.io/)
 
