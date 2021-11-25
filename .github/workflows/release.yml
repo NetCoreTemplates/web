@@ -77,11 +77,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: refs/tags/${{ github.event.inputs.version }}
-          
-      - name: setup .net core
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: 6.0.100
 
       - name: repository name fix and env
         run: |
@@ -95,7 +90,19 @@ jobs:
           if [ "${{ github.event.inputs.version }}" != "" ]; then
             echo "TAG_NAME=${{ github.event.inputs.version }}" >> $GITHUB_ENV
           fi;
-          
+
+      # Populate docker-compose.yml with variables from build process, including TAG_NAME.
+      - name: docker-compose file prep
+        uses: danielr1996/envsubst-action@1.0.0
+        env:
+          RELEASE_VERSION: ${{ env.TAG_NAME }}
+          IMAGE_REPO: ${{ env.image_repository_name }}
+          HOST_DOMAIN: ${{ env.domain }}
+          LETSENCRYPT_EMAIL: ${{ env.letsencrypt_email }}
+        with:
+          input: .deploy/docker-compose-template.yml
+          output: .deploy/${{ github.event.repository.name }}-docker-compose.yml
+
       # Copy only the docker-compose.yml to remote server home folder
       - name: copy compose file via scp
         uses: appleboy/scp-action@v0.1.1
