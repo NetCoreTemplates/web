@@ -33,7 +33,7 @@ jobs:
           ref: refs/tags/${{ github.event.inputs.version }}
           
       # Assign environment variables used in subsequent steps
-      - name: repository name fix
+      - name: Env variable assignment
         run: echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       # TAG_NAME defaults to 'latest' if not a release or manual deployment
       - name: Assign version
@@ -77,6 +77,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: refs/tags/${{ github.event.inputs.version }}
+          
+      - name: setup .net core
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 6.0.100
 
       - name: repository name fix and env
         run: |
