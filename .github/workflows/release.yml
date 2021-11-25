@@ -1,0 +1,82 @@
+name: Release
+on:
+  release:
+    types: [published]
+jobs:
+  push_to_registry:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+          
+      - name: repository name fix
+        run: echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2.2.2
+        with:
+          file: Dockerfile
+          context: .
+          push: true
+          tags: ghcr.io/${{ env.image_repository_name }}:${{ github.event.release.tag_name }}
+  
+  deploy_via_ssh:
+    needs: push_to_registry
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: repository name fix and env
+        run: |
+          echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "domain=${{ secrets.DEPLOY_HOST }}" >> $GITHUB_ENV
+          echo "letsencrypt_email=${{ secrets.LETSENCRYPT_EMAIL }}" >> $GITHUB_ENV
+
+      - name: docker-compose file prep
+        uses: danielr1996/envsubst-action@1.0.0
+        env:
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+          IMAGE_REPO: ${{ env.image_repository_name }}
+          HOST_DOMAIN: ${{ env.domain }}
+          LETSENCRYPT_EMAIL: ${{ env.letsencrypt_email }}
+        with:
+          input: deploy/docker-compose-template.yml
+          output: deploy/web-docker-compose.yml
+
+      - name: copy compose file via scp
+        uses: appleboy/scp-action@v0.1.1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          source: "deploy/web-docker-compose.yml"
+          target: "~/"
+
+      - name: Set the value
+        run: |
+          echo "GH_TOKEN=${{ secrets.CR_PAT }}" >> $GITHUB_ENV
+          echo "USERNAME=${{ secrets.DEPLOY_USERNAME }}" >> $GITHUB_ENV
+
+      - name: remote docker-compose up via ssh
+        uses: appleboy/ssh-action@v0.1.4
+        env:
+          APPTOKEN: ${{ env.GH_TOKEN }}
+          USERNAME: ${{ env.USERNAME }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          envs: APPTOKEN,USERNAME
+          script: |
+            echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
+            docker-compose -f ~/deploy/web-docker-compose.yml up -d
