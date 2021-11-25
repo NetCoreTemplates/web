@@ -107,7 +107,7 @@ jobs:
       - name: copy compose file via scp
         uses: appleboy/scp-action@v0.1.1
         with:
-          host: ${{ secrets.DEPLOY_API }}
+          host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USERNAME }}
           port: ${{ secrets.DEPLOY_PORT }}
           key: ${{ secrets.DEPLOY_KEY }}
@@ -126,7 +126,7 @@ jobs:
           APPTOKEN: ${{ env.GH_TOKEN }}
           USERNAME: ${{ env.USERNAME }}
         with:
-          host: ${{ secrets.DEPLOY_API }}
+          host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.DEPLOY_PORT }}
