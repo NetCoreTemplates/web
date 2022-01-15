@@ -17,27 +17,56 @@
 <div id="result"></div>
 
 <script>
-    var exports = { __esModule:true }, module = { exports:exports }
-    function require(name) { return exports[name] || window[name] }
+var exports = { __esModule:true }, module = { exports:exports }
+function require(name) { return exports[name] || window[name] }
 </script>
 <script src="/js/servicestack-client.js"></script>
-<script src="/dtos.js"></script>
+<script src="/types/js"></script>
 <script>
-    Object.assign(window, exports); //import
+Object.assign(window, exports); //import
 
-    var client = new JsonServiceClient();
-    function callHello(val) {
-        client.get(new Hello({ name: val }))
-            .then(function(r) {
-                document.getElementById('result').innerHTML = r.result;
-            });
-    }
+var client = new JsonServiceClient();
+function callHello(val) {
+    client.get(new Hello({ name: val }))
+        .then(function(r) {
+            document.getElementById('result').innerHTML = r.result;
+        });
+}
 
-    callHello(document.querySelector('#txtName').value = 'World')
+callHello(document.querySelector('#txtName').value = 'World')
 </script>
 
 <div style="font-size:20px;line-height:26px">
     <h3>Using JsonServiceClient in Web Pages</h3>
+    
+    <p>
+        The easiest way to call your APIs in a webpage is to include your JavaScript DTOs <b>/types/js</b> and built-in
+        UMD <a href="https://docs.servicestack.net/servicestack-client-umd">@servicestack/client</a> library:
+    </p>
+
+<pre>&lt;script&gt;
+  var exports = { __esModule:true }, module = { exports:exports }
+  function require(name) { return exports[name] || window[name] }
+&lt;/script&gt;
+&lt;script src="/js/servicestack-client.js"&gt;&lt;/script&gt;
+&lt;script src="/types/js"&gt;&lt;/script&gt;</pre>
+
+    <p>
+        We can then import the library and DTO types in the global namespace to use them directly:
+    </p>
+
+    <pre>Object.assign(window, exports) //import
+
+var client = new JsonServiceClient()
+client.api(new Hello({ name: name }))
+    .then(function(api) {
+        if (api.succeeded) 
+            console.log(api.response.result)
+    })
+</pre>
+
+    <h3>Using @servicestack/client in npm projects</h3>
+
 
     <p>
         Update your App's
@@ -52,33 +81,14 @@
     <p>
         Create a basic UMD loader then include the UMD <b>@servicestack/client</b> library and <b>dtos.js</b>:
     </p>
-
-    <pre>&lt;script&gt;
-  var exports = { __esModule:true }, module = { exports:exports }
-  function require(name) { return exports[name] || window[name] }
-&lt;/script&gt;
-&lt;script src="/js/servicestack-client.js"&gt;&lt;/script&gt;
-&lt;script src="/dtos.js"&gt;&lt;/script&gt;</pre>
-
-    <p>
-        We can then import the library and DTO types in the global namespace to use them directly:
-    </p>
-
-    <pre>Object.assign(window, exports) //import
-
-var client = new JsonServiceClient()
-client.get(new Hello({ name: name }))
-    .then(function(r) {
-        console.log(r.result)
-    })
-</pre>
-
-    <h3>Using @servicestack/client in npm projects</h3>
+    
     <pre>$ npm install @servicestack/client</pre>
     <pre>import { JsonServiceClient } from '@servicestack/client'
 
 let client = new JsonServiceClient()
-let response = await client.get(new Hello({ name }))
+let api = await client.api(new Hello({ name }))
+if (api.succeeded) 
+    console.log(api.response.result)
 </pre>
 
     <p>
