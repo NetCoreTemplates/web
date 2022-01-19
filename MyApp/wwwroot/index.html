@@ -16,10 +16,7 @@
 <input type="text" id="txtName" onkeyup="callHello(this.value)">
 <div id="result"></div>
 
-<script>
-var exports = { __esModule:true }, module = { exports:exports }
-function require(name) { return exports[name] || window[name] }
-</script>
+<script src="/js/require.js"></script>
 <script src="/js/servicestack-client.js"></script>
 <script src="/types/js"></script>
 <script>
@@ -44,10 +41,7 @@ callHello(document.querySelector('#txtName').value = 'World')
         UMD <a href="https://docs.servicestack.net/servicestack-client-umd">@servicestack/client</a> library:
     </p>
 
-<pre>&lt;script&gt;
-  var exports = { __esModule:true }, module = { exports:exports }
-  function require(name) { return exports[name] || window[name] }
-&lt;/script&gt;
+<pre>&lt;script src="/js/require.js"&gt;&lt;/script&gt;
 &lt;script src="/js/servicestack-client.js"&gt;&lt;/script&gt;
 &lt;script src="/types/js"&gt;&lt;/script&gt;</pre>
 
@@ -79,11 +73,12 @@ client.api(new Hello({ name: name }))
     <h3>Including @servicestack/client &amp; Typed DTOs</h3>
 
     <p>
-        Create a basic UMD loader then include the UMD <b>@servicestack/client</b> library and <b>dtos.js</b>:
+        Where you'll be able to use your APIs typed DTOs with ServiceStack's generic **JsonServiceClient**
     </p>
     
     <pre>$ npm install @servicestack/client</pre>
     <pre>import { JsonServiceClient } from '@servicestack/client'
+import { Hello } from './dtos'
 
 let client = new JsonServiceClient()
 let api = await client.api(new Hello({ name }))
