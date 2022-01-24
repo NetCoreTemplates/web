@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<h2><a href="/json/metadata?op=Hello">Hello</a> API</h2>
+<h2><a href="/ui/Hello">Hello</a> API</h2>
 <input type="text" id="txtName" onkeyup="callHello(this.value)">
 <div id="result"></div>
 
@@ -34,6 +34,20 @@ callHello(document.querySelector('#txtName').value = 'World')
 </script>
 
 <div style="font-size:20px;line-height:26px">
+    
+    <h3>View in API Explorer</h3>
+    <ul>
+        <li>
+            <a href="/ui/Hello">Call API</a>
+        </li>
+        <li>
+            <a href="/ui/Hello?tab=details">View API Details</a>
+        </li>
+        <li>
+            <a href="/ui/Hello?tab=code">Browse API Source Code</a>
+        </li>
+    </ul>
+    
     <h3>Using JsonServiceClient in Web Pages</h3>
     
     <p>
