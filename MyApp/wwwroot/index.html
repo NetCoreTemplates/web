@@ -23,8 +23,8 @@
 var { JsonServiceClient, Hello } = exports
 
 var client = new JsonServiceClient();
-function callHello(val) {
-    client.get(new Hello({ name: val }))
+function callHello(name) {
+    client.get(new Hello({ name }))
         .then(function(r) {
             document.getElementById('result').innerHTML = r.result;
         });
