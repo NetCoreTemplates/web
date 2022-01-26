@@ -20,7 +20,7 @@
 <script src="/js/servicestack-client.js"></script>
 <script src="/types/js"></script>
 <script>
-Object.assign(window, exports); //import
+var { JsonServiceClient, Hello } = exports
 
 var client = new JsonServiceClient();
 function callHello(val) {
@@ -60,16 +60,16 @@ callHello(document.querySelector('#txtName').value = 'World')
 &lt;script src="/types/js"&gt;&lt;/script&gt;</pre>
 
     <p>
-        We can then import the library and DTO types in the global namespace to use them directly:
+        We can then import and use the library and DTO types:
     </p>
 
-    <pre>Object.assign(window, exports) //import
+    <pre>var { JsonServiceClient, Hello } = exports
 
 var client = new JsonServiceClient()
-client.api(new Hello({ name: name }))
+client.api(new Hello({ name }))
     .then(function(api) {
         if (api.succeeded) 
-            console.log(api.response.result)
+            console.log(api.response)
     })
 </pre>
 
