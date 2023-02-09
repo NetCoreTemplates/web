@@ -56,8 +56,8 @@ $1('#txtName').dispatchEvent(new KeyboardEvent('keyup'))
 ### Using JsonServiceClient in Web Pages
 
 Easiest way to call APIs is to use [@servicestack/client](https://docs.servicestack.net/javascript-client) with
-the built-in [/types/mjs](/types/mjs) JS Module which returns your APIs in annotated typed ES6 class DTOs that can be 
-referenced directly.
+the built-in [/types/mjs](/types/mjs) which returns your APIs in annotated typed ES6 class DTOs where it can be 
+referenced directly from a [JavaScript Module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
 We recommend using an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) 
 to specify where to load **@servicestack/client** from, e.g:
