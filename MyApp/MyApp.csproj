@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\dtos.mjs" />
+    <None Include="wwwroot\js\dtos.mjs" />
   </ItemGroup>
 
 </Project>
