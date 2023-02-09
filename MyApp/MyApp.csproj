@@ -23,4 +23,8 @@
     <ProjectReference Include="..\MyApp.ServiceModel\MyApp.ServiceModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\dtos.mjs" />
+  </ItemGroup>
+
 </Project>

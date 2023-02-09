@@ -1,109 +1,120 @@
 <html>
 <head>
-    <title>My App</title>
-    <style>
-        body { padding: 1em 1em 0 1em; }
-        body, input[type=text] { font: 32px/36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif }
-        input { padding:.25em .5em; margin-right:.5em; }
-        a { color: #007bff }
-        #result { display:inline-block;color:#28a745; }
-        pre { background: #f1f1f1; padding: 1em; }
-    </style>
+<title>My App</title>
+<style>
+    body { padding: 1em 1em 0 1em; }
+    body, input[type=text] { font: 20px/28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif }
+    input { padding:.25em .5em; margin-right:.5em; }
+    a { color: #007bff }
+    #result { display:inline-block;color:#28a745; }
+    pre { border-radius:10px; overflow:hidden }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/atom-one-dark.min.css">
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.6.3/dist/es-module-shims.js"></script><!--safari polyfill-->
+<script type="importmap">
+{
+    "imports": {
+        "@servicestack/client": "https://unpkg.com/@servicestack/client@2/dist/servicestack-client.min.mjs"
+    }
+}
+</script>
 </head>
 <body>
 
 <h2><a href="/ui/Hello">Hello</a> API</h2>
-<input type="text" id="txtName" onkeyup="callHello(this.value)">
+<input type="text" id="txtName">
 <div id="result"></div>
 
-<script src="/js/require.js"></script>
-<script src="/js/servicestack-client.js"></script>
-<script src="/types/js"></script>
-<script>
-var { JsonServiceClient, Hello } = exports
+<script type="module">
+import { JsonApiClient, $1, on } from '@servicestack/client'
+import { Hello } from '/types/mjs'
 
-var client = new JsonServiceClient();
-function callHello(name) {
-    client.get(new Hello({ name }))
-        .then(function(r) {
-            document.getElementById('result').innerHTML = r.result;
-        });
-}
-
-callHello(document.querySelector('#txtName').value = 'World')
+on('#txtName', {
+    /** @param {Event} el */
+    async keyup(el) {
+        const client = JsonApiClient.create()
+        const api = await client.api(new Hello({ name:el.target.value }))
+        $1('#result').innerHTML = api.response.result
+    }
+})
 </script>
 
-<div style="font-size:20px;line-height:26px">
+<div id="content" style="max-width:110ch"></div>
+
+<template id="docs">
+## View in API Explorer
+
+- [Call API](/ui/Hello)
+- [View API Details](/ui/Hello?tab=details)
+- [Browse API Source Code](/ui/Hello?tab=code)
+
+### Using JsonServiceClient in Web Pages
+
+Easiest way to call APIs is to use [@servicestack/client](https://docs.servicestack.net/javascript-client) with
+the built-in [/types/mjs](/types/mjs) which returns your APIs annotated typed JS DTOs that can be used immediately
+(i.e. without any build steps):
+
+Define an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) specifying 
+where to load **@servicestack/client** from:
+
+```html
+&lt;script type="importmap"&gt;
+{
+    "imports": {
+        "@servicestack/client": "https://unpkg.com/@servicestack/client@2/dist/servicestack-client.mjs"
+    }
+}
+&lt;/script&gt;
+```
+
+Which lets us reference the **@servicestack/client** package name in our source code instead of its physical location:
     
-    <h3>View in API Explorer</h3>
-    <ul>
-        <li>
-            <a href="/ui/Hello">Call API</a>
-        </li>
-        <li>
-            <a href="/ui/Hello?tab=details">View API Details</a>
-        </li>
-        <li>
-            <a href="/ui/Hello?tab=code">Browse API Source Code</a>
-        </li>
-    </ul>
-    
-    <h3>Using JsonServiceClient in Web Pages</h3>
-    
-    <p>
-        The easiest way to call your APIs in a webpage is to include your JavaScript DTOs <b>/types/js</b> and built-in
-        UMD <a href="https://docs.servicestack.net/servicestack-client-umd">@servicestack/client</a> library:
-    </p>
+```html
+&lt;input type="text" id="txtName"&gt;
+&lt;div id="result"&gt;&lt;/div&gt;
+```
 
-<pre>&lt;script src="/js/require.js"&gt;&lt;/script&gt;
-&lt;script src="/js/servicestack-client.js"&gt;&lt;/script&gt;
-&lt;script src="/types/js"&gt;&lt;/script&gt;</pre>
+```html
+&lt;script type="module"&gt;
+import { JsonApiClient, $1, on } from '@servicestack/client'
+import { Hello } from '/types/mjs'
 
-    <p>
-        We can then import and use the library and DTO types:
-    </p>
+const client = JsonApiClient.create()
+on('#txtName', {
+    async keyup(el) {
+        const api = await client.api(new Hello({ name:el.target.value }))
+        $1('#result').innerHTML = api.response.result
+    }
+})
+&lt;/script&gt;
+```
 
-    <pre>var { JsonServiceClient, Hello } = exports
+For better IDE intelli-sense during development, save the annotated Typed DTOs to disk using the [x dotnet tool](https://docs.servicestack.net/dotnet-tool):
 
-var client = new JsonServiceClient()
+```bash
+$ x mjs
+```
+
+Where it will enable IDE static analysis when calling Typed APIs from JavaScript:
+
+```js
+import { Hello } from '/dtos.mjs'
 client.api(new Hello({ name }))
-    .then(function(api) {
-        if (api.succeeded) 
-            console.log(api.response)
-    })
-</pre>
+```
+</template>
 
-    <h3>Using @servicestack/client in npm projects</h3>
+<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+function decode(html) {
+    const txt = document.createElement("textarea")
+    txt.innerHTML = html
+    return txt.value
+}
+document.querySelector('#content').innerHTML = marked.parse(decode(document.querySelector('#docs').innerHTML))
+hljs.highlightAll()
+</script>
 
-
-    <p>
-        Update your App's
-        <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript DTOs</a> and
-        compile to JS (requires <a href="https://www.typescriptlang.org/download">TypeScript</a>):
-    </p>
-
-    <pre>$ x scripts dtos</pre>
-
-    <h3>Including @servicestack/client &amp; Typed DTOs</h3>
-
-    <p>
-        Where you'll be able to use your APIs typed DTOs with ServiceStack's generic **JsonServiceClient**
-    </p>
-    
-    <pre>$ npm install @servicestack/client</pre>
-    <pre>import { JsonServiceClient } from '@servicestack/client'
-import { Hello } from './dtos'
-
-let client = new JsonServiceClient()
-let api = await client.api(new Hello({ name }))
-if (api.succeeded) 
-    console.log(api.response.result)
-</pre>
-
-    <p>
-        Typed DTOs generated using
-        <a href="https://docs.servicestack.net/typescript-add-servicestack-reference">TypeScript Add ServiceStack Reference</a>
-    </p>
 </div>
 
 </body>
