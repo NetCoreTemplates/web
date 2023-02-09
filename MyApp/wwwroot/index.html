@@ -2,7 +2,7 @@
 <head>
 <title>My App</title>
 <style>
-    body { padding: 1em 1em 0 1em; }
+    body { padding: 1em 1em 5em 1em; }
     body, input[type=text] { font: 20px/28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif }
     input { padding:.25em .5em; margin-right:.5em; }
     a { color: #007bff }
@@ -42,7 +42,7 @@ $1('#txtName').value = 'World'
 $1('#txtName').dispatchEvent(new KeyboardEvent('keyup'))
 </script>
 
-<div id="content" style="max-width:110ch"></div>
+<div id="content" style="max-width:105ch"></div>
 
 <template id="docs">
 ## View in API Explorer
@@ -54,23 +54,23 @@ $1('#txtName').dispatchEvent(new KeyboardEvent('keyup'))
 ### Using JsonServiceClient in Web Pages
 
 Easiest way to call APIs is to use [@servicestack/client](https://docs.servicestack.net/javascript-client) with
-the built-in [/types/mjs](/types/mjs) which returns your APIs annotated typed JS DTOs that can be used immediately
-(i.e. without any build steps):
+the built-in [/types/mjs](/types/mjs) JS Module which returns your APIs in annotated typed ES6 class DTOs that can be 
+referenced directly.
 
-Define an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) specifying 
-where to load **@servicestack/client** from:
+We recommend using an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) 
+to specify where to load **@servicestack/client** from, e.g:
 
 ```html
 &lt;script type="importmap"&gt;
 {
-    "imports": {
-        "@servicestack/client": "https://unpkg.com/@servicestack/client@2/dist/servicestack-client.mjs"
-    }
+  "imports": {
+    "@servicestack/client":"https://unpkg.com/@servicestack/client@2/dist/servicestack-client.mjs"
+  }
 }
 &lt;/script&gt;
 ```
 
-Which lets us reference the **@servicestack/client** package name in our source code instead of its physical location:
+This lets us reference the **@servicestack/client** package name in our source code instead of its physical location:
     
 ```html
 &lt;input type="text" id="txtName"&gt;
@@ -92,18 +92,28 @@ on('#txtName', {
 &lt;/script&gt;
 ```
 
-For better IDE intelli-sense during development, save the annotated Typed DTOs to disk using the [x dotnet tool](https://docs.servicestack.net/dotnet-tool):
+### Enable static analysis and intelli-sense 
+
+For better IDE intelli-sense during development, save the annotated Typed DTOs to disk with the [x dotnet tool](https://docs.servicestack.net/dotnet-tool):
 
 ```bash
 $ x mjs
 ```
 
-Where it will enable IDE static analysis when calling Typed APIs from JavaScript:
+Then reference it instead to enable IDE static analysis when calling Typed APIs from JavaScript:
 
 ```js
 import { Hello } from '/dtos.mjs'
 client.api(new Hello({ name }))
 ```
+    
+To also enable static analysis for the dependency-free **@servicestack/client** library, install it as a dev dependency:
+    
+```bash
+$ npm install -D @servicestack/client
+```
+
+Where only its TypeScript definitions are used by the IDE during development to enable its type-checking and intelli-sense.
 </template>
 
 <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
