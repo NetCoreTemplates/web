@@ -1,18 +1,9 @@
 version: "3.9"
 services:
     app:
-        build: .
-        restart: always
-        ports:
-            - "5000:80"
-        environment:
-            VIRTUAL_HOST: ${HOST_DOMAIN}
-            LETSENCRYPT_HOST: ${HOST_DOMAIN}
-            LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
         volumes:
             - app-mydb:/app/App_Data
     app-migration:
-        build: .
         restart: "no"
         profiles:
             - migration
