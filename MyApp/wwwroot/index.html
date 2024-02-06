@@ -84,10 +84,10 @@ This lets us reference the **@servicestack/client** package name in our source c
 
 ```html
 &lt;script type="module"&gt;
-import { JsonApiClient, $1, on } from '@servicestack/client'
+import { JsonServiceClient, $1, on } from '@servicestack/client'
 import { Hello } from '/types/mjs'
 
-const client = JsonApiClient.create()
+const client = new JsonServiceClient()
 on('#txtName', {
     async keyup(el) {
         const api = await client.api(new Hello({ name:el.target.value }))
