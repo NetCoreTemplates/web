@@ -1,5 +1,6 @@
 {
     "scripts": {
-        "dtos": "x mjs"
+        "dtos": "x mjs",
+        "dev": "dotnet watch"
     }
 }
