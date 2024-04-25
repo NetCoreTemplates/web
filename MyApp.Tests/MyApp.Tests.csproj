@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <DebugType>portable</DebugType>
     <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
