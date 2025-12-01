@@ -1,23 +1,23 @@
 # web
 
-.NET 8.0 Empty Web Template
+.NET 10 Empty Web Template
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/web.png)](http://web.web-templates.io/)
 
-> Browse [source code](https://github.com/NetCoreTemplates/web), view live demo [web.web-templates.io](http://web.web-templates.io) and install with [dotnet-new](https://docs.servicestack.net/dotnet-new):
+> Browse [source code](https://github.com/NetCoreTemplates/web), view live demo [web.web-templates.io](http://web.web-templates.io):
 
-    $ dotnet tool install -g x
+```bash
+npx create-net web ProjectName
+```
 
-    $ x new web ProjectName
+## Jumpstart with Copilot
 
-Alternatively write new project files directly into an empty repository, using the Directory Name as the ProjectName:
-
-    $ git clone https://github.com/<User>/<ProjectName>.git
-    $ cd <ProjectName>
-    $ x new web
+Instantly [scaffold a new App with this template](https://github.com/new?template_name=web&template_owner=NetCoreTemplates) using GitHub Copilot, just describe the features you want and watch Copilot build it!
 
 ### Update Server TypeScript DTOs
 
 Run the dtos package.json script to update your server dtos:
 
-    $ x scripts dtos
+```bash
+npm run dtos
+```
